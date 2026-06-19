@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click Rush Viral</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(180deg, #020617, #0f172a);
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+h1 {
+    margin: 10px;
+    color: #38bdf8;
+    font-size: 22px;
+}
+
+#score {
+    font-size: 42px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#mult {
+    color: #fbbf24;
+}
+
+/* BUTTON */
+#clickBtn {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: none;
+    font-size: 20px;
+    margin-top: 15px;
+    background: radial-gradient(circle, #22c55e, #16a34a);
+    box-shadow: 0 0 25px #22c55e;
+    color: white;
+}
+
+#clickBtn:active {
+    transform: scale(0.92);
+}
+
+/* SHOP */
+.shop {
+    margin-top: 10px;
+}
+
+.btn {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    background: #3b82f6;
+    color: white;
+}
+
+/* BANNER ADS (SIMULADO) */
+#ad {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #111827;
+    padding: 10px;
+    font-size: 14px;
+    border-top: 1px solid #333;
+    color: #aaa;
+}
+
+#anuncio{
+    position:fixed;
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:70px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(20,20,20,0.95);
+    border-top:1px solid rgba(0,255,255,.4);
+
+    color:white;
+    z-index:999;
+}
+
+/* FLOAT TEXT */
+.float {
+    position: absolute;
+    color: #fbbf24;
+    animation: up 0.8s ease-out forwards;
+}
+
+@keyframes up {
+    from {opacity:1; transform: translateY(0);}
+    to {opacity:0; transform: translateY(-80px);}
+}
+</style>
+</head>
+
+<body>
+
+<h1>🔥 CLICK RUSH VIRAL 🔥</h1>
+
+<div style="display:flex;justify-content:space-around;margin:10px;">
+    <button onclick="showTab('game')">🎮 Juego</button>
+    <button onclick="showTab('missions')">📌 Misiones</button>
+    <button onclick="showTab('daily')">🎁 Diario</button>
+</div>
+
+<div id="gameTab">
+    <!-- aquí va tu juego (botón, score etc) -->
+</div>
+
+<div id="missionsTab" style="display:none">
+    <div id="missionsBox"></div>
+</div>
+
+<div id="dailyTab" style="display:none">
+    <h2>🎁 Recompensa diaria</h2>
+    <button onclick="daily()">Reclamar recompensa</button>
+</div>
+
+<div id="score">0</div>
+<div id="mult">x1</div>
+
+<button id="clickBtn">TAP</button>
+
+<div class="shop">
+    <button class="btn" onclick="buyPower()">+1 poder</button>
+    <button class="btn" onclick="buyAuto()">Auto</button>
+    <button class="btn" onclick="prestige()">Prestigio</button>
+</div>
+
+<div class="shop">
+    <button class="btn" onclick="daily()">🎁 Daily</button>
+    <button class="btn" onclick="mission()">📌 Misión</button>
+</div>
+
+<div id="ad">📢 Publicidad: Tu juego aquí (Play Store ready)</div>
+
+<script>
+let score = 0;
+let power = 1;
+let mult = 1;
+let cost = 10;
+let auto = false;
+
+/* SAVE */
+function save(){
+    localStorage.setItem("clickviral", JSON.stringify({
+        score, power, mult, cost, auto
+    }));
+}
+
+function load(){
+    let d = JSON.parse(localStorage.getItem("clickviral"));
+    if(d){
+        score=d.score; power=d.power; mult=d.mult;
+        cost=d.cost; auto=d.auto;
+        if(auto) startAuto();
+    }
+}
+
+/* FORMAT NUMBERS */
+function format(n){
+    if(n<1000) return n;
+    let units=["K","M","B","T"];
+    let i=0;
+    while(n>=1000){
+        n/=1000;
+        i++;
+    }
+    return n.toFixed(1)+units[i-1];
+}
+
+/* UI */
+function update(){
+    document.getElementById("score").innerText = format(score);
+    document.getElementById("mult").innerText = "x"+mult;
+    save();
+}
+
+/* CLICK */
+function add(x,y){
+    score += power * mult;
+    update();
+
+    if(navigator.vibrate) navigator.vibrate(20);
+
+    let f=document.createElement("div");
+    f.className="float";
+    f.innerText="+"+(power*mult);
+    f.style.left=x+"px";
+    f.style.top=y+"px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),800);
+}
+
+document.getElementById("clickBtn").addEventListener("click",(e)=>{
+    add(e.pageX,e.pageY);
+});
+
+/* HOLD TO CLICK (MOBILE VIRAL FEATURE) */
+let holdInterval;
+document.getElementById("clickBtn").addEventListener("mousedown",()=>{
+    holdInterval=setInterval(()=>add(200,300),100);
+});
+document.getElementById("clickBtn").addEventListener("mouseup",()=>{
+    clearInterval(holdInterval);
+});
+
+/* SHOP */
+function buyPower(){
+    if(score>=cost){
+        score-=cost;
+        power++;
+        cost=Math.floor(cost*1.5);
+        update();
+    }
+}
+
+function buyAuto(){
+    if(!auto && score>=100){
+        score-=100;
+        auto=true;
+        startAuto();
+        update();
+    }
+}
+
+function startAuto(){
+    setInterval(()=>{
+        score+=power*mult;
+        update();
+    },1000);
+}
+
+/* PRESTIGE */
+function prestige(){
+    if(score>=1000){
+        mult++;
+        score=0;
+        power=1;
+        update();
+    }
+}
+
+/* DAILY REWARD */
+function daily(){
+    let today = new Date().toDateString();
+    let last = localStorage.getItem("daily");
+
+    if(last === today){
+        alert("⛔ Ya reclamado hoy");
+        return;
+    }
+
+    score += 800;
+    localStorage.setItem("daily", today);
+    update();
+    alert("🎁 Recompensa diaria +800!");
+}
+
+/* MISSION */
+let missions = [];
+let missionProgress = JSON.parse(localStorage.getItem("missionProg")) || {};
+
+function generateMissions(){
+    missions = [
+        {id:1, type:"click", need:200, reward:300},
+        {id:2, type:"click", need:500, reward:700},
+        {id:3, type:"click", need:1000, reward:1400},
+        {id:4, type:"click", need:2000, reward:2800},
+        {id:5, type:"click", need:3500, reward:5000},
+    ];
+}
+generateMissions();
+
+function claimMission(i){
+    let today = new Date().toDateString();
+
+    if(!missionProgress[today]) missionProgress[today] = {};
+
+    let m = missions[i];
+
+    if(missionProgress[today][m.id]){
+        alert("⛔ Ya completada");
+        return;
+    }
+
+    if(score >= m.need){
+        score += m.reward;
+        missionProgress[today][m.id] = true;
+        localStorage.setItem("missionProg", JSON.stringify(missionProgress));
+        update();
+        renderMissions();
+        alert("🎁 Misión completada +"+m.reward);
+    } else {
+        alert("Necesitas " + format(m.need));
+    }
+}
+load();
+update();
+
+</script>
+
+</body>
+</html>
