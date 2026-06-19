@@ -1,94 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Jc Delicias Caceres</title>
-  <link rel="website icon" type="image/jpg" href="imagenes/logo.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: #000000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    .card {
-      background: white;
-      padding: 30px 20px;
-      border-radius: 20px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-      max-width: 90%;
-      width: 400px;
-      text-align: center;
-      transition: opacity 0.8s ease;
-    }
-
-    .card img {
-      width: 60%;
-      border-radius: 15px;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      color: #000000;
-      margin-bottom: 10px;
-      font-size: 24px;
-    }
-
-    p {
-      color: #555;
-      font-size: 16px;
-      margin-bottom: 25px;
-    }
-
-    a.boton {
-      padding: 12px 25px;
-      background-color: #000000;
-      color: white;
-      text-decoration: none;
-      border-radius: 25px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-      display: inline-block;
-    }
-
-    a.boton:hover {
-      background-color: #2e2d2d;
-    }
-
-    .fade-out {
-      opacity: 0;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameHub</title>
+<link rel="stylesheet" href="fondo.css">
 </head>
 <body>
 
-  <div class="card">
-    <img src="imagenes/logo.jpg" alt="Torta decorada">
-    <h1>Jc Delicias Caceres</h1>
-    <p>Tu dulzura en cada bocado</p>
-    <a href="#" class="boton" onclick="transicion()">Ver catálogo</a>
-  </div>
+<div class="sidebar">
+    <h2>🎮 GameHub</h2>
 
-  <script>
-    function transicion() {
-      const card = document.querySelector('.card');
-      card.classList.add('fade-out');
-      setTimeout(() => {
-        window.location.href = 'catalogo.html';
-      }, 800); // 800ms = mismo tiempo que la transición CSS
-    }
-  </script>
+    <input type="text" placeholder="Buscar juego..." id="buscador">
+
+    <ul>
+        <li>🏠 Inicio</li>
+        <li>🔥 Populares</li>
+        <li>🆕 Nuevos</li>
+        <li>⭐ Favoritos</li>
+    </ul>
+
+    <div class="sidebar-ad">
+        <p>Publicidad</p>
+    </div>
+</div>
+
+<div class="contenido">
+
+    <h1>Mis Juegos</h1>
+
+    <div class="grid">
+
+        <div class="juego">
+            <img src="imagenes/esquivar.png">
+            <h3>Esquiva los Bloques</h3>
+            <p>Sobrevive el mayor tiempo posible.</p>
+            <button onclick="window.location.href='esquivar.html'">
+            Jugar 
+            </button>
+        </div>
+
+        <!-- <div class="juego">
+            <img src="imagenes/juego2.jpg">
+            <h3>Speed Race</h3>
+            <p>Carreras extremas.</p>
+            <button>Jugar</button>
+        </div> -->
+
+        <!-- <div class="juego">
+            <img src="imagenes/juego3.jpg">
+            <h3>Survival Island</h3>
+            <p>Explora y construye.</p>
+            <button>Jugar</button>
+        </div> -->
+
+    </div>
+
+    <div class="anuncios-horizontal">
+        <p>📢 Espacio publicitario</p>
+    </div>
+
+</div>
 
 </body>
 </html>
