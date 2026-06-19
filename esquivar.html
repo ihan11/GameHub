@@ -23,8 +23,10 @@ canvas{
     border:3px solid cyan;
     box-shadow:0 0 20px cyan;
 
-    width:min(95vw,600px);
-    height:min(80vh,700px);
+    canvas{
+    width:min(92vw,500px);
+    height:min(65vh,650px);
+}
 }
 
 #score{
@@ -65,8 +67,11 @@ canvas{
 }
 
 #controles button{
-    width:80px;
-    height:80px;
+    #controles button{
+    width:60px;
+    height:60px;
+    font-size:24px;
+}
     border:none;
     border-radius:50%;
     font-size:30px;
@@ -127,9 +132,9 @@ let gameOver = false;
 const player = {
     x:0,
     y:0,
-    width:60,
-    height:60,
-    speed:8
+    width: window.innerWidth <= 768 ? 40 : 60,
+    height: window.innerWidth <= 768 ? 40 : 60,
+    speed: window.innerWidth <= 768 ? 12 : 8
 };
 
 function resetPlayer(){
@@ -310,27 +315,37 @@ function loop(){
     requestAnimationFrame(loop);
 }
 
-document.getElementById("izquierda")
-.addEventListener("touchstart",(e)=>{
+const btnIzq = document.getElementById("izquierda");
+const btnDer = document.getElementById("derecha");
+
+// IZQUIERDA
+btnIzq.addEventListener("touchstart", (e)=>{
     e.preventDefault();
     keys["ArrowLeft"] = true;
 });
 
-document.getElementById("izquierda")
-.addEventListener("touchend",(e)=>{
+btnIzq.addEventListener("touchend", (e)=>{
     e.preventDefault();
     keys["ArrowLeft"] = false;
 });
 
-document.getElementById("derecha")
-.addEventListener("touchstart",(e)=>{
+// DERECHA
+btnDer.addEventListener("touchstart", (e)=>{
     e.preventDefault();
     keys["ArrowRight"] = true;
 });
 
-document.getElementById("derecha")
-.addEventListener("touchend",(e)=>{
+btnDer.addEventListener("touchend", (e)=>{
     e.preventDefault();
+    keys["ArrowRight"] = false;
+});
+
+// Si el dedo sale del botón
+btnIzq.addEventListener("touchcancel", ()=>{
+    keys["ArrowLeft"] = false;
+});
+
+btnDer.addEventListener("touchcancel", ()=>{
     keys["ArrowRight"] = false;
 });
 
