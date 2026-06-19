@@ -191,7 +191,7 @@ h1{
     align-items:center;
 }
 
-.cios-horizontal{
+.anuncios-horizontal{
     position:fixed;
     bottom:0;
     left:0;
@@ -248,7 +248,7 @@ h1{
         height:100px;
     }
 
-    .cios-horizontal{
+    .anuncios-horizontal{
         height:100px;
         font-size:1rem;
     }
