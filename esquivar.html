@@ -11,37 +11,66 @@ body{
     margin:0;
     background:#111;
     display:flex;
-    justify-content:center;
+    flex-direction:column;
     align-items:center;
-    height:100vh;
-    overflow:hidden;
+    min-height:100vh;
     font-family:Arial,sans-serif;
+}
+
+#score{
+    color:white;
+    font-size:24px;
+    font-weight:bold;
+    margin:15px 0;
 }
 
 canvas{
     background:#000;
     border:3px solid cyan;
     box-shadow:0 0 20px cyan;
-
-    canvas{
-    width:min(92vw,500px);
-    height:min(65vh,650px);
-}
 }
 
-#score{
-    position:absolute;
-    top:15px;
+#controles{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    margin-top:15px;
+}
+
+#controles button{
+    width:65px;
+    height:65px;
+    border:none;
+    border-radius:50%;
+    font-size:28px;
+    cursor:pointer;
+}
+
+#anuncio{
+    width:90%;
+    max-width:400px;
+    height:70px;
+
+    margin-top:15px;
+    margin-bottom:15px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(0,255,255,.4);
+
     color:white;
-    font-size:24px;
-    font-weight:bold;
 }
 
 #menuFinal{
-    position:absolute;
-    top:60%;
+    position:fixed;
+    top:50%;
     left:50%;
-    transform:translateX(-50%);
+    transform:translate(-50%,-50%);
     display:none;
     gap:15px;
 }
@@ -54,42 +83,9 @@ canvas{
     color:black;
     font-weight:bold;
     cursor:pointer;
-    font-size:16px;
 }
 
-#controles{
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    display:none;
-    gap:30px;
-}
-
-#controles button{
-    #controles button{
-    width:60px;
-    height:60px;
-    font-size:24px;
-}
-    border:none;
-    border-radius:50%;
-    font-size:30px;
-}
-
-@media(max-width:768px){
-
-    #controles{
-        display:flex;
-    }
-
-    #score{
-        font-size:20px;
-    }
-
-}
 </style>
-
 </head>
 <body>
 
@@ -100,6 +96,10 @@ canvas{
 <div id="controles">
     <button id="izquierda">⬅️</button>
     <button id="derecha">➡️</button>
+</div>
+
+<div id="anuncio">
+    📢 Espacio publicitario
 </div>
 
 <div id="menuFinal">
@@ -116,8 +116,19 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 function resizeCanvas(){
-    canvas.width = Math.min(window.innerWidth * 0.95, 600);
-    canvas.height = Math.min(window.innerHeight * 0.8, 700);
+
+    if(window.innerWidth <= 768){
+
+        canvas.width = 350;
+        canvas.height = 500;
+
+    }else{
+
+        canvas.width = 600;
+        canvas.height = 700;
+
+    }
+
 }
 
 resizeCanvas();
@@ -132,14 +143,16 @@ let gameOver = false;
 const player = {
     x:0,
     y:0,
-    width: window.innerWidth <= 768 ? 40 : 60,
-    height: window.innerWidth <= 768 ? 40 : 60,
-    speed: window.innerWidth <= 768 ? 12 : 8
+    width:40,
+    height:40,
+    speed:12
 };
 
 function resetPlayer(){
-    player.x = canvas.width/2 - 30;
-    player.y = canvas.height - 80;
+
+    player.x = canvas.width/2 - player.width/2;
+    player.y = canvas.height - 60;
+
 }
 
 resetPlayer();
@@ -158,11 +171,11 @@ document.addEventListener("keyup",(e)=>{
 function createEnemy(){
 
     enemies.push({
-        x:Math.random()*(canvas.width-50),
-        y:-50,
-        width:50,
-        height:50,
-        speed:3 + Math.random()*4
+        x:Math.random()*(canvas.width-40),
+        y:-40,
+        width:40,
+        height:40,
+        speed:4 + Math.random()*3
     });
 
 }
@@ -218,9 +231,6 @@ function update(){
 
             document.getElementById("menuFinal")
             .style.display = "flex";
-
-            document.getElementById("controles")
-            .style.display = "none";
         }
 
     });
@@ -229,12 +239,7 @@ function update(){
 
 function draw(){
 
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 
     ctx.fillStyle = "cyan";
 
@@ -261,9 +266,9 @@ function draw(){
     if(gameOver){
 
         ctx.fillStyle = "white";
-
-        ctx.font = "50px Arial";
         ctx.textAlign = "center";
+
+        ctx.font = "35px Arial";
 
         ctx.fillText(
             "GAME OVER",
@@ -271,13 +276,14 @@ function draw(){
             canvas.height/2
         );
 
-        ctx.font = "30px Arial";
+        ctx.font = "24px Arial";
 
         ctx.fillText(
             "Puntos: " + score,
             canvas.width/2,
-            canvas.height/2 + 50
+            canvas.height/2 + 40
         );
+
     }
 
 }
@@ -291,17 +297,10 @@ function reiniciarJuego(){
 
     resetPlayer();
 
-    scoreText.textContent =
-    "Puntos: 0";
+    scoreText.textContent = "Puntos: 0";
 
     document.getElementById("menuFinal")
     .style.display = "none";
-
-    if(window.innerWidth <= 768){
-
-        document.getElementById("controles")
-        .style.display = "flex";
-    }
 }
 
 function loop(){
@@ -318,34 +317,31 @@ function loop(){
 const btnIzq = document.getElementById("izquierda");
 const btnDer = document.getElementById("derecha");
 
-// IZQUIERDA
-btnIzq.addEventListener("touchstart", (e)=>{
+btnIzq.addEventListener("touchstart",(e)=>{
     e.preventDefault();
     keys["ArrowLeft"] = true;
 });
 
-btnIzq.addEventListener("touchend", (e)=>{
+btnIzq.addEventListener("touchend",(e)=>{
     e.preventDefault();
     keys["ArrowLeft"] = false;
 });
 
-// DERECHA
-btnDer.addEventListener("touchstart", (e)=>{
+btnIzq.addEventListener("touchcancel",()=>{
+    keys["ArrowLeft"] = false;
+});
+
+btnDer.addEventListener("touchstart",(e)=>{
     e.preventDefault();
     keys["ArrowRight"] = true;
 });
 
-btnDer.addEventListener("touchend", (e)=>{
+btnDer.addEventListener("touchend",(e)=>{
     e.preventDefault();
     keys["ArrowRight"] = false;
 });
 
-// Si el dedo sale del botón
-btnIzq.addEventListener("touchcancel", ()=>{
-    keys["ArrowLeft"] = false;
-});
-
-btnDer.addEventListener("touchcancel", ()=>{
+btnDer.addEventListener("touchcancel",()=>{
     keys["ArrowRight"] = false;
 });
 
