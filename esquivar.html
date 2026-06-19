@@ -51,6 +51,27 @@ canvas{
 #menuFinal button:hover{
     transform:scale(1.05);
 }
+
+#controles{
+    position:absolute;
+    bottom:20px;
+    display:none;
+    gap:20px;
+}
+
+#controles button{
+    width:80px;
+    height:80px;
+    border:none;
+    border-radius:50%;
+    font-size:30px;
+}
+
+@media(max-width:768px){
+    #controles{
+        display:flex;
+    }
+}
 </style>
 </head>
 <body>
@@ -58,6 +79,11 @@ canvas{
 <div id="score">Puntos: 0</div>
 
 <canvas id="game" width="600" height="700"></canvas>
+
+<div id="controles">
+    <button id="izquierda">⬅️</button>
+    <button id="derecha">➡️</button>
+</div>
 
 <div id="menuFinal" style="display:none;">
     <button onclick="reiniciarJuego()">🔄 Reiniciar</button>
@@ -219,6 +245,22 @@ function loop(){
     draw();
     requestAnimationFrame(loop);
 }
+
+document.getElementById("izquierda").addEventListener("touchstart",()=>{
+    keys["ArrowLeft"]=true;
+});
+
+document.getElementById("izquierda").addEventListener("touchend",()=>{
+    keys["ArrowLeft"]=false;
+});
+
+document.getElementById("derecha").addEventListener("touchstart",()=>{
+    keys["ArrowRight"]=true;
+});
+
+document.getElementById("derecha").addEventListener("touchend",()=>{
+    keys["ArrowRight"]=false;
+});
 
 loop();
 </script>
