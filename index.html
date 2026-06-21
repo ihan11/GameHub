@@ -8,22 +8,22 @@
 </head>
 <body>
 
+<button id="toggleSidebar" class="toggle-btn">☰</button>
+
 <div class="sidebar">
     <h2>🎮 GameHub</h2>
 
     <input type="text" placeholder="Buscar juego..." id="buscador">
 
     <ul>
-        <li>🏠 Inicio</li>
-        <li>🔥 Populares</li>
-        <li>🆕 Nuevos</li>
-        <li>⭐ Favoritos</li>
+     <li><a href="#">🆕 Nuevos</a></li>
+     <li><a href="info.html">ℹ️ Sobre</a></li>
     </ul>
 </div>
 
 <div class="contenido">
-
-    <h1>Mis Juegos</h1>
+    <h1>Bienvenido a GameHub</h1>
+    <p>Tu destino para mini juegos rápidos y divertidos.</p>
 
     <div class="grid">
 
@@ -32,7 +32,7 @@
             <h3>Esquiva los Bloques</h3>
             <p>Sobrevive el mayor tiempo posible.</p>
             <button onclick="window.location.href='esquivar.html'">
-            Jugar 
+                Jugar
             </button>
         </div>
 
@@ -40,25 +40,34 @@
             <img src="imagenes/CLICK RUSH.png">
             <h3>CLICK RUSH</h3>
             <p>Carreras extremas.</p>
-            <button onclick="window.location.href=`CLICK RUSH.HTML`">
-            Jugar
+            <button onclick="window.location.href='click-rush.html'">
+                Jugar
             </button>
         </div>
 
-        <!-- <div class="juego">
-            <img src="imagenes/juego3.jpg">
-            <h3>Survival Island</h3>
-            <p>Explora y construye.</p>
-            <button>Jugar</button>
-        </div> -->
-
     </div>
 
-    <div class="cios-horizontal">
-        <p>📢 Espacio publicitario</p>
+    <!-- ANUNCIO -->
+    <div class="anuncios-horizontal">
+        <p>Espacio publicitario</p>
     </div>
 
 </div>
+
+<footer>
+    <p>© 2026 GameHub - Todos los derechos reservados</p>
+    <a href="privacy.html">Política de privacidad</a>
+</footer>
+
+<script>
+const btn = document.querySelector(".toggle-btn");
+const sidebar = document.querySelector(".sidebar");
+
+btn.addEventListener("click", () => {
+    sidebar.classList.toggle("oculto");
+    document.body.classList.toggle("sidebar-oculta");
+});
+</script>
 
 </body>
 </html>

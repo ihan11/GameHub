@@ -267,3 +267,76 @@ h1{
     }
 
 }
+.contenido{
+    margin-left:270px;
+    padding:30px;
+    transition: 0.3s ease;
+}
+.intro,
+.info,
+.featured {
+    margin-bottom: 25px;
+}
+.about-card {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+
+    /* efecto tarjeta moderna */
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px);
+
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    color: white;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+    font-family: Arial, sans-serif;
+}
+
+.about-card h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.about-card p {
+    line-height: 1.6;
+    opacity: 0.9;
+}
+.toggle-btn{
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 10px;
+
+    background: cyan;
+    color: black;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* sidebar oculta */
+.sidebar.oculto{
+    transform: translateX(-100%);
+    transition: 0.3s ease;
+}
+
+/* animación normal */
+.sidebar{
+    transition: 0.3s ease;
+}
+.sidebar{
+    transition: 0.3s ease;
+    z-index: 1000;
+}
+body.sidebar-oculta .contenido{
+    margin-left: 0;
+}
